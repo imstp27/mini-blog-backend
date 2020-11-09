@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+  api:
+    container_name: mini-blog-api
+    build: .
+    env_file:
+      - .env
+    ports:
+      - '30035:${PORT}'
+    networks:
+      - sertis-take-home
+
+  db:
+    container_name: mini-blog-db
+    image: mongo:latest
+    env_file:
+      - .env
+    ports:
+      - '27035:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+    networks:
+      - sertis-take-home
+
+networks:
+  sertis-take-home:
+    name: sertis-take-home
