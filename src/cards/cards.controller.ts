@@ -4,7 +4,7 @@ import { CardsService } from './cards.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Cards } from './models/cards.model';
 import { InputCards } from './dto/cards.input';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 
 @ApiTags('Cards')
 @Controller('cards')

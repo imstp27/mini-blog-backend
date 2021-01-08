@@ -31,7 +31,7 @@ export class UsersService {
     const auth = await user.comparePassword(password);
     if (!auth) return null;
 
-    return user?.toResponseObject();
+    return user.toResponseObject();
   }
 
 

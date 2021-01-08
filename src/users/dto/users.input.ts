@@ -5,6 +5,12 @@ export class InputUserAuth {
   username: string
   @ApiProperty({ description: 'a password that set once register.', example: 'sertistakehome' })
   password: string
+
+  constructor(username: string, password: string) {
+    this.username = username
+    this.password = password
+  }
+
 }
 
 
