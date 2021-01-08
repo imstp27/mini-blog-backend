@@ -1,6 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserAuth, UserRO } from '../users/dto/users.reponse';
+import { confidential, userAuth, userRO } from '../utils/mock';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 
@@ -8,26 +8,7 @@ describe('AuthService', () => {
   let service: AuthService;
   let jwtService: JwtService;
   let usersService: UsersService;
-
-  const user = new UserAuth()
-  user.username = "username"
-  user.name = "name"
-  user.image = "image"
-  user.accessToken = "token"
-  user.expiresIn = 3600
-
-  const userRO = new UserRO()
-  userRO.username = "username"
-  userRO.name = "name"
-  userRO.image = "image"
-
-  const confidential: { accessToken: string; expiresIn: number; } = {
-    accessToken: "token",
-    expiresIn: 3600
-  }
-
-
-
+  
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -73,7 +54,7 @@ describe('AuthService', () => {
       jest.spyOn(usersService, 'login').mockResolvedValue(userRO)
       jest.spyOn(service, 'createToken').mockReturnValue(confidential)
       const result = await service.validateUser("username", "password")
-      expect(result).toEqual(user);
+      expect(result).toEqual(userAuth);
     });
   });
 

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ObjectID } from 'mongodb';
+import { card, inputCard, _id } from '../utils/mock';
 import { MongoRepository } from 'typeorm';
 import { CardsService } from './cards.service';
 import { InputCards } from './dto/cards.input';
@@ -9,21 +10,6 @@ import { Cards } from './models/cards.model';
 describe('CardsService', () => {
   let service: CardsService;
   let repository: MongoRepository<Cards>;
-
-  const _id = "507f1f77bcf86cd799439011"
-  const input = new InputCards()
-  input.name = 'name'
-  input.status = 'status'
-  input.content = 'content'
-  input.category = 'category'
-
-  const card = new Cards()
-  card._id = new ObjectID(_id)
-  card.name = input.name
-  card.status = input.status
-  card.content = input.content
-  card.category = input.category
-  card.author = new ObjectID(_id)
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -86,7 +72,7 @@ describe('CardsService', () => {
     let result: Cards
     beforeEach(async () => {
       jest.spyOn(repository, 'save').mockResolvedValue(card)
-      result = await service.create(input, { user: { id: _id } })
+      result = await service.create(inputCard, { user: { id: _id } })
     })
 
     it('should call repository.save once', async () => {
@@ -102,7 +88,7 @@ describe('CardsService', () => {
     let result: Cards
     beforeEach(async () => {
       jest.spyOn(repository, 'findOneAndUpdate').mockResolvedValue({ value: card })
-      result = await service.update(_id, input, { user: { id: _id } })
+      result = await service.update(_id, inputCard, { user: { id: _id } })
     })
 
     it('should call repository.findOneAndUpdate once', async () => {

@@ -5,27 +5,12 @@ import { UsersService } from '../users/users.service';
 import { CardsController } from './cards.controller';
 import { CardsService } from './cards.service';
 import { Cards } from './models/cards.model';
-import { InputCards } from './dto/cards.input';
+import { card, inputCard, _id } from '../utils/mock';
 
 describe('Cards Controller', () => {
   let controller: CardsController;
   let service: CardsService;
   let usersService: UsersService;
-
-  const _id = "507f1f77bcf86cd799439011"
-  const input = new InputCards()
-  input.name = 'name'
-  input.status = 'status'
-  input.content = 'content'
-  input.category = 'category'
-
-  const card = new Cards()
-  card._id = new ObjectID(_id)
-  card.name = input.name
-  card.status = input.status
-  card.content = input.content
-  card.category = input.category
-  card.author = new ObjectID(_id)
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -109,7 +94,7 @@ describe('Cards Controller', () => {
 
     beforeEach(async () => {
       jest.spyOn(service, 'create').mockResolvedValue(card);
-      result = await controller.create(input, jest.mock)
+      result = await controller.create(inputCard, jest.mock)
     })
 
     it('should call service.create once', async () => {
@@ -126,7 +111,7 @@ describe('Cards Controller', () => {
 
     beforeEach(async () => {
       jest.spyOn(service, 'update').mockResolvedValue(card);
-      result = await controller.update(_id, input, jest.mock)
+      result = await controller.update(_id, inputCard, jest.mock)
     })
 
     it('should call service.update once', async () => {

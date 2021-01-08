@@ -2,37 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ObjectID } from 'mongodb';
 import { MongoRepository } from 'typeorm';
-import { InputUser } from './dto/users.input';
 import { UserRO } from './dto/users.reponse';
 import { Users } from './models/users.model';
 import { UsersService } from './users.service';
-import * as bcrypt from 'bcrypt';
+import { inputUser, user, userRO, _id } from '../utils/mock';
 
 describe('UsersService', () => {
   let service: UsersService;
   let repository: MongoRepository<Users>;
-
-  const _id = "507f1f77bcf86cd799439011"
-
-  const input = new InputUser("username", "password")
-  input.name = "name"
-  input.image = "image"
-
-  const user = new Users();
-  user._id = new ObjectID(_id)
-  user.username = input.username
-  // user.password = "$2y$10$r5QG46KpG2XxVb95O2tOfuL21deVNXFXXiH7XzY6kGXcKAJnX1UCa"
-  user.password = input.password
-  user.name = input.name
-  user.image = input.image
-
-  const userRO = new UserRO();
-  userRO._id = _id
-  userRO.username = input.username
-  userRO.name = input.name
-  userRO.image = input.image
-
-  let newuser: Users
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -107,7 +84,7 @@ describe('UsersService', () => {
     let result: Users
     beforeEach(async () => {
       jest.spyOn(repository, 'save').mockResolvedValue(user)
-      result = await service.create(input)
+      result = await service.create(inputUser)
     })
 
     it('should call repository.save', async () => {

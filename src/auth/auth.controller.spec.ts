@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InputUser, InputUserAuth } from '../users/dto/users.input';
+import { userAuth } from '../utils/mock';
+import { InputUserAuth } from '../users/dto/users.input';
 import { UserAuth } from '../users/dto/users.reponse';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -7,13 +8,6 @@ import { AuthService } from './auth.service';
 describe('Auth Controller', () => {
   let controller: AuthController;
   let service: AuthService;
-
-  const user = new UserAuth()
-  user.username = "username"
-  user.name = "name"
-  user.image = "image"
-  user.accessToken = "token"
-  user.expiresIn = 3600
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -38,7 +32,7 @@ describe('Auth Controller', () => {
     let result: UserAuth
 
     beforeEach(async () => {
-      jest.spyOn(service, 'validateUser').mockResolvedValue(user);
+      jest.spyOn(service, 'validateUser').mockResolvedValue(userAuth);
       result = await controller.login(new InputUserAuth("username", "password"))
     })
 
@@ -47,7 +41,7 @@ describe('Auth Controller', () => {
     });
 
     it('should return a user', async () => {
-      expect(result).toEqual(user);
+      expect(result).toEqual(userAuth);
     });
   });
 
